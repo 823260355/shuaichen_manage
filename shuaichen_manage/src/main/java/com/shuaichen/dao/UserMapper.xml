@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuaichen.dao.UserMapper">
+    <!--查询用户信息-->
+    <select id="selectUserById" parameterType="String" resultType="User">
+        select * from shuaichen_manage.user where userId=#{userId}
+    </select>
+    <!--所有用户信息-->
+    <select id="selectUserList" resultType="User">
+        select * from shuaichen_manage.user
+    </select>
+    <!--添加用户-->
+    <insert id="addUser" parameterType="User">
+        insert into shuaichen_manage.user (userId, userName, password, sex, birthday, userTelephone, userAddress, userType, age)
+        values(#{userId},#{userName},#{password},#{sex},#{birthday},#{userTelephone},#{userAddress},#{userType},#{age})
+    </insert>
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="User">
+        update shuaichen_manage.user set userName=#{userName},password=#{password},sex=#{sex},birthday=#{birthday},
+        userTelephone=#{userTelephone},userAddress=#{userAddress},userType=#{userType},age=#{age}
+        where userId=#{userId}
+    </update>
+    <!--删除用户-->
+    <delete id="deleteUserById" parameterType="String" >
+        set FOREIGN_KEY_CHECKS=0;
+        delete from shuaichen_manage.user where userId=#{userId};
+        set FOREIGN_KEY_CHECKS=1;
+    </delete>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <import resource="classpath:spring/spring-dao.xml"/>
+    <!--扫描包-->
+    <context:component-scan base-package="com.shuaichen.service"/>
+
+    <!--手动配置bean-->
+    <bean id="userServiceImpl" class="com.shuaichen.service.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <bean id="providerServiceImpl" class="com.shuaichen.service.ProviderServiceImpl">
+        <property name="providerMapper" ref="providerMapper"/>
+    </bean>
+    <bean id="billServiceImpl" class="com.shuaichen.service.BillServiceImpl">
+        <property name="billMapper" ref="billMapper"/>
+    </bean>
+
+
+    <!--事务管理-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--DataSource-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>

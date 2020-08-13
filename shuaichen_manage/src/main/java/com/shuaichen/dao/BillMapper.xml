@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shuaichen.dao.BillMapper">
+    <!--billList.jsp-->
+    <select id="selectBillList" resultMap="BillDevice">
+        select b.billId,b.money,b.date,b.userId,b.checked,d.deviceName as dname from shuaichen_manage.bill as b,shuaichen_manage.device as d
+        where b.deviceId=d.deviceId
+    </select>
+    <resultMap id="BillDevice" type="Bill">
+        <id property="billId" column="billId"/>
+        <result property="money" column="money"/>
+        <result property="userId" column="userId"/>
+        <result property="checked" column="checked"/>
+        <result property="date" column="date"/>
+
+        <association property="deviceInfo" javaType="DeviceInfo">
+            <result property="deviceName" column="dname"/>
+        </association>
+    </resultMap>
+
+    <select id="selectBillByID" resultType="Bill">
+        select * from shuaichen_manage.bill where billId=#{billId}
+    </select>
+
+
+    <insert id="addBill" parameterType="Bill">
+        insert into shuaichen_manage.bill(billId,userId,money,date,deviceId,checked) values
+        (#{billId},#{userId},#{money},#{date},#{deviceId},#{checked})
+    </insert>
+    <update id="updateBill" parameterType="Bill">
+        update shuaichen_manage.bill
+        set billId=#{billId},userId=#{userId},date=#{date},deviceId=#{deviceId},money=#{money},checked=#{checked}
+        where billId=#{billId}
+    </update>
+    <delete id="deleteBillByID" parameterType="String">
+        delete from shuaichen_manage.bill where billId=#{billId}
+    </delete>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 配置mybatis日志采用的是log4j -->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.shuaichen.entity"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="com/shuaichen/dao/UserMapper.xml"/>
+        <mapper resource="com/shuaichen/dao/ProviderMapper.xml"/>
+        <mapper resource="com/shuaichen/dao/PasswordMapper.xml"/>
+        <mapper resource="com/shuaichen/dao/DeviceInfoMapper.xml"/>
+        <mapper resource="com/shuaichen/dao/BillMapper.xml"/>
+    </mappers>
+
+</configuration>

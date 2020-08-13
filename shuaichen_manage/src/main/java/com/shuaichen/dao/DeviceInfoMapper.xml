@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuaichen.dao.DeviceInfoMapper">
+    <!--type:resultMap结果类型   id：唯一标识-->
+
+    <resultMap type="deviceInfo" id="deviceInfoResult">
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="deviceId" column="deviceId" />
+        <result property="deviceName" column="deviceName"/>
+        <result property="deviceNum" column="deviceNum"/>
+        <result property="deviceMoney" column="deviceMoney" />
+        <result property="deviceType" column="deviceType"/>
+        <!-- association ：配置一对一属性 -->
+        <!-- property:deviceInfo里面的provider属性名 -->
+        <!-- javaType:属性类型 -->
+        <association property="provider" javaType="provider">
+            <!-- id:声明主键，表示providerId是关联查询对象的唯一标识-->
+            <id property="providerId" column="providerId" />
+        </association>
+    </resultMap>
+    <!-- 一对多关联，查询设备同时查询该供应商下的设备-->
+    <select id="selectDeviceInfoList" resultMap="deviceInfoResult"  >
+         select shuaichen_manage.device.* from shuaichen_manage.device LEFT JOIN shuaichen_manage.provider ON device.deviceId =provider.providerId
+    </select>
+
+    <!--新增数据-->
+   <insert id="addDeviceInfo" parameterType="deviceInfo" >
+       insert into shuaichen_manage.device(deviceId, deviceName, providerId, deviceNum, deviceMoney,deviceType) values (#{deviceId},#{deviceName},#{provider.providerId},#{deviceNum},#{deviceMoney},#{deviceType})
+
+    </insert>
+    <!--根据设备名查看设备信息-->
+    <select id="selectDeviceInfoById" parameterType="String" resultMap="deviceInfoResult" >
+        select shuaichen_manage.device.* from shuaichen_manage.device LEFT JOIN shuaichen_manage.provider ON device.deviceId =provider.providerId having deviceId=#{deviceId}
+    </select>
+    <!--根据设备名查看设备信息-->
+   <update id="updateDeviceInfo" parameterType="deviceInfo">
+        update shuaichen_manage.device set deviceName=#{deviceName},providerId=#{provider.providerId},deviceNum=#{deviceNum},deviceMoney=#{deviceMoney},deviceType=#{deviceType} where deviceId=#{deviceId}
+     </update>
+     <!--根据设备编号删除-->
+    <delete id="deleteDeviceInfoById" parameterType="String">
+        set FOREIGN_KEY_CHECKS=0;
+        delete from shuaichen_manage.device where deviceId=#{deviceId};
+        set FOREIGN_KEY_CHECKS=1;
+    </delete>
+</mapper>
